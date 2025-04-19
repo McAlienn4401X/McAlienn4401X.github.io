@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DALERO SOLUTIONS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        :root {
+            --primary-color: #003366;
+            --secondary-color: #FFD700;
+            --accent-color: #FF8C00;
+            --text-color: #333;
+            --light-text: #fff;
+            --dark-bg: #002244;
+            --light-bg: #f9f9f9;
+            --shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            --hover-shadow: 0 12px 20px rgba(0, 0, 0, 0.25);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', Arial, sans-serif;
+            background: var(--light-bg);
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+
+        /* Intro interactiva */
+        .intro {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary-color), var(--dark-bg));
+            color: var(--light-text);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .intro-content {
+            max-width: 800px;
+        }
+
+        .intro h1 {
+            font-size: 4em;
+            margin: 0;
+            animation: fadeIn 2s ease-in-out, textGlow 3s infinite alternate;
+            text-shadow: 0 0 10px var(--secondary-color), 0 0 20px var(--accent-color);
+            letter-spacing: 2px;
+        }
+
+        .intro p {
+            font-size: 1.5em;
+            margin: 20px 0;
+            animation: fadeIn 3s ease-in-out;
+            max-width: 600px;
+        }
+
+        .intro button {
+            background-color: var(--secondary-color);
+            color: var(--primary-color);
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: fadeIn 4s ease-in-out, glow 2s infinite alternate;
+            margin-top: 30px;
+        }
+
+        .intro button:hover {
+            background-color: var(--accent-color);
+            box-shadow: 0 0 20px var(--secondary-color);
+            transform: scale(1.05);
+        }
+
+        /* Partículas */
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        /* Animaciones */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes textGlow {
+            from {
+                text-shadow: 0 0 10px var(--secondary-color), 0 0 20px var(--accent-color);
+            }
+            to {
+                text-shadow: 0 0 20px var(--secondary-color), 0 0 30px var(--accent-color);
+            }
+        }
+
+        @keyframes glow {
+            from {
+                box-shadow: 0 0 10px var(--secondary-color);
+            }
+            to {
+                box-shadow: 0 0 20px var(--accent-color);
+            }
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-15px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        /* Ocultar intro */
+        .hidden {
+            display: none;
+        }
+
+        /* Navegación */
+        nav {
+            background: var(--primary-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            color: var(--light-text);
+            font-size: 1.8em;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo i {
+            margin-right: 10px;
+            color: var(--secondary-color);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin: 0 15px;
+        }
+
+        .nav-links a {
+            color: var(--light-text);
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+            padding: 5px 0;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--secondary-color);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--secondary-color);
+        }
+
+        .nav-links a:hover:after {
+            width: 100%;
+        }
+
+        .mobile-menu {
+            display: none;
+            cursor: pointer;
+            color: var(--light-text);
+            font-size: 1.5em;
+        }
+
+        /* Contenedor principal */
+        .main-content {
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        .main-content.visible {
+            opacity: 1;
+        }
+
+        /* Secciones */
+        section {
+            padding: 80px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h2 {
+            font-size: 2.5em;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title h2:after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 3px;
+            background-color: var(--secondary-color);
+            bottom: -10px;
+            left: 25%;
+        }
+
+        .section-title p {
+            font-size: 1.2em;
+            color: #555;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Servicios */
+        .services-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .service-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            padding: 30px;
+            width: 300px;
+            text-align: center;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .service-card:hover {
+            transform: translateY(-15px);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .service-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, var(--primary-color), var(--dark-bg));
+            z-index: -1;
+            transform: scale(0);
+            transition: transform 0.4s ease;
+            border-radius: 15px;
+        }
+
+        .service-card:hover:before {
+            transform: scale(1);
+        }
+
+        .service-card:hover .service-icon,
+        .service-card:hover h3,
+        .service-card:hover p {
+            color: var(--light-text);
+        }
+
+        .service-icon {
+            font-size: 3em;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            transition: all 0.4s ease;
+        }
+
+        .service-card h3 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            transition: all 0.4s ease;
+        }
+
+        .service-card p {
+            font-size: 1em;
+            color: #666;
+            transition: all 0.4s ease;
+        }
+
+        /* Banner */
+        .banner {
+            background: linear-gradient(135deg, rgba(0, 51, 102, 0.8), rgba(0, 34, 68, 0.8)), url('/api/placeholder/1200/300') no-repeat center center;
+            background-size: cover;
+            padding: 100px 20px;
+            text-align: center;
+            color: var(--light-text);
+            margin: 50px 0;
+            position: relative;
+        }
+
+        .banner-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .banner h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        .banner p {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            background-color: var(--secondary-color);
+            color: var(--primary-color);
+            padding: 12px 25px;
+            border: none;
+            border-radius: 50px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background-color: var(--accent-color);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Testimonios */
+        .testimonials-container {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            gap: 30px;
+            padding: 20px 0;
+            scrollbar-width: none;
+        }
+
+        .testimonials-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .testimonial {
+            min-width: 300px;
+            width: 300px;
+            scroll-snap-align: start;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+
+        .testimonial:before {
+            content: '\f10d';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            font-size: 2em;
+            color: rgba(0, 51, 102, 0.1);
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+        }
+
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+        }
+
+        .author-info h4 {
+            margin: 0;
+            font-size: 1.1em;
+        }
+
+        .author-info p {
+            margin: 5px 0 0;
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary-color);
+            color: var(--light-text);
+            padding: 50px 20px 20px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 40px;
+        }
+
+        .footer-column {
+            flex: 1 1 250px;
+        }
+
+        .footer-column h3 {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h3:after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 2px;
+            background-color: var(--secondary-color);
+            bottom: 0;
+            left: 0;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-column ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-column ul li a:hover {
+            color: var(--secondary-color);
+            padding-left: 5px;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .social-icon:hover {
+            background: var(--secondary-color);
+            transform: translateY(-5px);
+        }
+
+        .social-icon i {
+            color: var(--light-text);
+            font-size: 1.2em;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            margin-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Scroll to top */
+        .scroll-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--primary-color);
+            color: var(--light-text);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 99;
+        }
+
+        .scroll-to-top.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-to-top:hover {
+            background: var(--secondary-color);
+            color: var(--primary-color);
+        }
+
+        /* Responsive */
+        @media screen and (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: var(--primary-color);
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start;
+                padding-top: 50px;
+                transition: all 0.3s ease;
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .nav-links li {
+                margin: 15px 0;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .intro h1 {
+                font-size: 2.5em;
+            }
+
+            .section-title h2 {
+                font-size: 2em;
+            }
+
+            .banner h2 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Intro interactiva -->
+    <div id="particles-js"></div>
+    <div class="intro" id="intro">
+        <div class="intro-content">
+            <h1>DALERO SOLUTIONS</h1>
+            <p id="typing-text"></p>
+            <button id="start-btn">Descubrir Soluciones</button>
+        </div>
+    </div>
+
+    <!-- Contenido principal -->
+    <div class="main-content" id="main-content">
+        <!-- Navegación -->
+        <nav id="navbar">
+            <div class="nav-container">
+                <div class="logo">
+                    <i class="fas fa-lightbulb"></i>
+                    DALERO
+                </div>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="#inicio" class="nav-link">Inicio</a></li>
+                    <li><a href="#academicos" class="nav-link">Servicios Académicos</a></li>
+                    <li><a href="#marketing" class="nav-link">Marketing</a></li>
+                    <li><a href="#diseno" class="nav-link">Diseño</a></li>
+                    <li><a href="#testimonios" class="nav-link">Testimonios</a></li>
+                    <li><a href="#contacto" class="nav-link">Contacto</a></li>
+                </ul>
+                <div class="mobile-menu" id="mobileMenu">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Banner -->
+        <div class="banner" id="inicio">
+            <div class="banner-content">
+                <h2>Excelencia y Profesionalismo</h2>
+                <p>Ofrecemos soluciones integrales para impulsar tu éxito académico y profesional con un enfoque personalizado y resultados garantizados.</p>
+                <a href="#contacto" class="btn">Solicitar Información</a>
+            </div>
+        </div>
+
+        <!-- Servicios Académicos -->
+        <section id="academicos">
+            <div class="section-title">
+                <h2>Servicios Académicos</h2>
+                <p>Ofrecemos ayuda ética y responsable en tareas universitarias, garantizando absoluta reserva y resultados de calidad.</p>
+            </div>
+            <div class="services-container">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <h3>Asesorías en Tareas</h3>
+                    <p>Recibe ayuda personalizada para tus tareas académicas con expertos en diferentes áreas de conocimiento.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3>Preparación para Exámenes</h3>
+                    <p>Prepárate con confianza para tus evaluaciones con materiales de estudio y técnicas efectivas.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <h3>Proyectos Académicos</h3>
+                    <p>Desarrolla proyectos con calidad y profesionalismo, cumpliendo con los más altos estándares académicos.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Servicios de Marketing -->
+        <section id="marketing">
+            <div class="section-title">
+                <h2>Servicios de Marketing</h2>
+                <p>Impulsa tu negocio con estrategias innovadoras y efectivas diseñadas para aumentar tu visibilidad y conversiones.</p>
+            </div>
+            <div class="services-container">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-bullhorn"></i>
+                    </div>
+                    <h3>Marketing Digital</h3>
+                    <p>Impulsa tu negocio con estrategias de marketing efectivas adaptadas a tus objetivos y mercado.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Analítica Web</h3>
+                    <p>Obtén insights valiosos para tu estrategia digital con informes detallados y recomendaciones.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h3>Email Marketing</h3>
+                    <p>Conecta con tus clientes a través de campañas efectivas que generan resultados medibles.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Servicios de Diseño -->
+        <section id="diseno">
+            <div class="section-title">
+                <h2>Servicios de Diseño</h2>
+                <p>Soluciones creativas para destacar la identidad visual de tu marca y causar una impresión duradera.</p>
+            </div>
+            <div class="services-container">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-paint-brush"></i>
+                    </div>
+                    <h3>Diseño de Logos</h3>
+                    <p>Creación de logos únicos y profesionales que reflejan la identidad y valores de tu marca.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <h3>Branding y Rebranding</h3>
+                    <p>Construcción y renovación de la identidad visual de tu negocio con enfoque estratégico.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-vector-square"></i>
+                    </div>
+                    <h3>Diseño Gráfico</h3>
+                    <p>Soluciones creativas para todas tus necesidades de diseño con atención al detalle y calidad.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonios -->
+        <section id="testimonios">
+            <div class="section-title">
+                <h2>Testimonios</h2>
+                <p>Lo que dicen nuestros clientes sobre nuestros servicios</p>
+            </div>
+            <div class="testimonials-container" id="testimonials-slider">
+                <div class="testimonial">
+                    <p class="testimonial-text">"DALERO me ayudó a completar mi proyecto final con excelencia. Su equipo profesional entendió mis necesidades y el resultado superó mis expectativas."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="author-info">
+                            <h4>Carlos M.</h4>
+                            <p>Estudiante universitario</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial">
+                    <p class="testimonial-text">"Gracias a su estrategia de marketing digital, aumentamos nuestras ventas en un 45% en solo tres meses. ¡Altamente recomendado!"</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="author-info">
+                            <h4>Laura P.</h4>
+                            <p>Dueña de negocio</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial">
+                    <p class="testimonial-text">"El diseño de mi logo capturó perfectamente la esencia de mi marca. El proceso fue profesional y el resultado es exactamente lo que necesitaba."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="author-info">
+                            <h4>Miguel R.</h4>
+                            <p>Emprendedor</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contacto -->
+        <section id="contacto">
+            <div class="section-title">
+                <h2>Contáctanos</h2>
+                <p>Estamos aquí para ayudarte. Envíanos tu consulta y te responderemos a la brevedad.</p>
+            </div>
+            <div class="services-container">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h3>Email</h3>
+                    <p>info@dalerosolutions.com</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <h3>Teléfono</h3>
+                    <p>+123 456 7890</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <h3>Ubicación</h3>
+                    <p>Calle Principal 123, Ciudad</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <div class="footer-container">
+                <div class="footer-column">
+                    <h3>DALERO SOLUTIONS</h3>
+                    <p>Tu guía confiable hacia el éxito académico y profesional. Ofrecemos soluciones personalizadas para todos tus proyectos.</p>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Enlaces Rápidos</h3>
+                    <ul>
+                        <li><a href="#inicio">Inicio</a></li>
+                        <li><a href="#academicos">Servicios Académicos</a></li>
+                        <li><a href="#marketing">Marketing</a></li>
+                        <li><a href="#diseno">Diseño</a></li>
+                        <li><a href="#testimonios">Testimonios</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Horario de Atención</h3>
+                    <ul>
+                        <li>Lunes - Viernes: 9:00 - 18:00</li>
+                        <li>Sábado: 10:00 - 14:00</li>
+                        <li>Domingo: Cerrado</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 DALERO SOLUTIONS. Todos los derechos reservados.</p>
+            </div>
+        </footer>
+
+        <!-- Scroll to top -->
+        <div class="scroll-to-top" id="scrollTop">
+            <i class="fas fa-arrow-up"></i>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=IntersectionObserver"></script>
+    <script>
+        // Inicializar partículas
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof particlesJS !== 'undefined') {
+                particlesJS("particles-js", {
+                    particles: {
+                        number: { value: 80, density: { enable: true, value_area: 800 } },
+                        color: { value: "#ffffff" },
+                        shape: { type: "circle" },
+                        opacity: { value: 0.5, random: true },
+                        size: { value: 3, random: true },
+                        line_linked: { enable: true, distance: 150, color: "#ffffff", opacity: 0.4, width: 1 },
+                        move: { enable: true, speed: 6, direction: "none", random: true }
+                    },
+                    interactivity: {
+                        detect_on: "canvas",
+                        events: {
+                            onhover: { enable: true, mode: "repulse" },
+                            onclick: { enable: true, mode: "push" }
+                        },
+                        modes: {
+                            repulse: { distance: 100, duration: 0.4 }
+                        }
+                    }
+                });
+            }
+
+            // Mostrar y ocultar la intro interactiva
+            const intro = document.getElementById('intro');
+            const mainContent = document.getElementById('main-content');
+            const startBtn = document.getElementById('start-btn');
+
+            startBtn.addEventListener('click', () => {
+                intro.classList.add('hidden');
+                mainContent.classList.remove('hidden');
+                mainContent.classList.add('visible');
+            });
+
+            // Efecto de escritura en el texto de la intro
+            const typingText = document.getElementById('typing-text');
+            const textArray = ["Innovación", "Calidad", "Confianza"];
+            let textIndex = 0;
+            let charIndex = 0;
+
+            function typeEffect() {
+                if (charIndex < textArray[textIndex].length) {
+                    typingText.textContent += textArray[textIndex].charAt(charIndex);
+                    charIndex++;
+                    setTimeout(typeEffect, 150);
+                } else {
+                    setTimeout(() => {
+                        typingText.textContent = "";
+                        charIndex = 0;
+                        textIndex = (textIndex + 1) % textArray.length;
+                        typeEffect();
+                    }, 2000);
+                }
+            }
+
+            typeEffect();
+
+            // Navegación móvil
+            const mobileMenu = document.getElementById('mobileMenu');
+            const navLinks = document.getElementById('navLinks');
+
+            mobileMenu.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+            });
+
+            // Scroll to top
+            const scrollTop = document.getElementById('scrollTop');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    scrollTop.classList.add('active');
+                } else {
+                    scrollTop.classList.remove('active');
+                }
+            });
+
+            scrollTop.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+            // Animación de secciones al hacer scroll
+            const sections = document.querySelectorAll('section');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.2 });
+
+            sections.forEach(section => observer.observe(section));
+        });
+    </script>
+</body>
+<!-- Server Integration -->
+<script>
+    fetch('http://127.0.0.1:3000')
+        .then(response => response.text())
+        .then(data => console.log(data))
+        .catch(error => console.error('Error:', error));
+</script>
+
+
